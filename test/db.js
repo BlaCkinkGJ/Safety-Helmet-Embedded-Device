@@ -5,14 +5,14 @@ let employees = [];
 client.connect('mongodb://localhost:27017', function(err, db){
     if(err){
         console.log(err); throw err;
-    } 
+    }
     else{
         console.log("connected" + db);
 
         let dbo    = db.db       ('employee'); // explicit marking important!!
 
-        let gijun  = employee.makeEmployee("gijun","o", 24);
-        let heejae = employee.makeEmployee("heejae","seo", 23);
+        let gijun  = employee.make("gijun","o", 24);
+        let heejae = employee.make("heejae","seo", 23);
 
         employee.isExistCollection(dbo, "compressor dept");
 
@@ -23,10 +23,10 @@ client.connect('mongodb://localhost:27017', function(err, db){
             else    console.log("create collection");
         });
 
-        employee.storeEmployee(dbo, "compressor dept", gijun);
-        employee.storeEmployee(dbo, "compressor dept", heejae);
+        employee.store(dbo, "compressor dept", gijun);
+        employee.store(dbo, "compressor dept", heejae);
 
-        employee.loadEmployee(dbo, "compressor dept", employees);
+        employee.load(dbo, "compressor dept", employees);
 
         db.close();
     } // end of if

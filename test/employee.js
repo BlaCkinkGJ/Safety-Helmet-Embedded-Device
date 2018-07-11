@@ -23,18 +23,18 @@ module.exports.isExistCollection = function(dbo, colName){
 }
 
 var cnt = 0;
-module.exports.makeEmployee = function(firstname, lastname, age){
-    cnt++; 
+module.exports.make = function(firstname, lastname, age){
+    cnt++;
     result = new Employee(cnt, firstname, lastname, age);
     result.print();
     return result;
 }
 
-module.exports.storeEmployee = function(dbo, dept, employee){
+module.exports.store = function(dbo, dept, employee){
     dbo.collection(dept).insert(employee);
 }
 
-module.exports.loadEmployee = function(dbo, dept, employees = []){
+module.exports.load = function(dbo, dept, employees = []){
     let cursor = dbo.collection(dept).find();
     cursor.each(function(err,doc){
         if(err){
