@@ -1,0 +1,20 @@
+#include <DallasTemperature.h>
+#include <OneWire.h>
+
+#define ONE_WIRTE_BUS 5
+
+unsigned char c;
+OneWire oneWire(ONE_WIRTE_BUS);
+DallasTemperature sensors(&oneWire);
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+}
+
+void loop() {
+  int reading = analogRead(output);
+  // put your main code here, to run repeatedly:
+  Serial.println(reading*0.625);
+  delay(100);
+}
