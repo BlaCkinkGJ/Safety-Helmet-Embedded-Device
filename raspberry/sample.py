@@ -1,54 +1,57 @@
-# import the necessary packages
-
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time
 import cv2
 
-
 def detect(img, cascade):
-    rects = cascade.detectMultiScale(img, scaleFactor=1.3, minNeighbors=4, minSize=(30, 30),flags=cv2.CASCADE_SCALE_IMAGE)
-    if len(rects) == 0:
-        return []
-    rects[:,2:] += rects[:,:2]
+    rects = cascade.detectMultiScale(img,
+                                     scaleFactor=1.3,
+                                     minNeighbors=3,
+                                     minSize=(30, 30),
+                                     flags=cv2.CASCADE_SCALE_IMAGE)
+    if len(rects) == 0: return []
+
+    rects[:, 2:] += rects[:, :2]
     return rects
 
 def draw_rects(img, rects, color):
-    for x1, y1, x2, y2 in rects:
-        cv2.rectangle(img, (x1, y1), (x2, y2), color, 2)
+    for lx, ly, rx, ry in rects:
+        cv2.rectangle(img, (lx, ly), (rx, ry), color, 2)
 
+if __name__ == "__main__":
+    camera = PiCamera()
+    camera.resolution = (640, 480)
+    camera.framerate = 32
 
-# initialize the camera and grab a reference to the raw camera capture
-camera = PiCamera()
-camera.resolution = (640, 480)
-camera.framerate = 32
-rawCapture = PiRGBArray(camera, size=(640, 480))
+    rawCapture = PiRGBArray(camera, size=(640, 480))
+    path = "/home/pi/opencv/opencv-3.4.1/data/haarcascades/haarcascade_eye_tree_eyeglasses.xml"
+    # lower  grade : haarcascade_eye.xml
+    # mid    grade : haarcascade_eye_tree_eyeglasses.xml
+    # higher grade : haarcascade_lefteye_2splits.xml
+    cascade = cv2.CascadeClassifier(path)
 
-cascade = cv2.CascadeClassifier("/home/pi/opencv/opencv-3.4.1/data/haarcascades/haarcascade_frontalface_alt.xml")
+    time.sleep(0.1)  # For camera warmup
 
-# allow the camera to warmup
-time.sleep(0.1)
+    for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+        img = frame.array
 
-# capture frames from the camera
-for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-    # grab the raw NumPy array representing the image, then initialize the timestamp
-    # and occupied/unoccupied text
-    img = frame.array
-    
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    gray = cv2.equalizeHist(gray)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        gray = cv2.equalizeHist(gray)
 
-    rects = detect(gray, cascade)
-    vis = img.copy()
-    draw_rects(vis, rects, (0, 255, 0))
+        rects = detect(gray, cascade)
+        out   = img.copy()
 
-    # show the frame
-    cv2.imshow("Frame", vis)
-    key = cv2.waitKey(1) & 0xFF
+        draw_rects(out, rects, (0, 255, 0))
 
-    # clear the stream in preparation for the next frame
-    rawCapture.truncate(0)
+        if rects == []:
+            print(0)
+        else:
+            print(1)
 
-    # if the `q` key was pressed, break from the loop
-    if key == ord("q"):
-        break;
+        cv2.imshow("Frame", out)
+        key = cv2.waitKey(1) & 0xFF
+
+        rawCapture.truncate(0)
+
+        # if pressed q then stop the program
+        if key == ord("q"): break
