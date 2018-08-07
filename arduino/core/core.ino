@@ -10,10 +10,10 @@ int     alertByBuzzer      (int   alert);
 
 /*** Port information is here ***/
 enum port {
-    PORT_DS18B20       = 10,
-    PORT_BUZZER        = 3,
+    PORT_DS18B20       = 2,
+    PORT_BUZZER        = 5,
     PORT_CONNECTOR_IN  = 4,
-    PORT_CONNECTOR_OUT = 5
+    PORT_CONNECTOR_OUT = 3
 };
 /*** Port information is here ***/
 
@@ -37,16 +37,14 @@ void setup() {
   temperModule.readSensor();
 }
 void loop() {
-   String temper = getTemperature();
+    String temper = getTemperature();
     String  state  = getConnectedState();
-
-    if(Serial.available()){
+    
+    sendDataToSerial(String(temper + "\t" + state));
+    if(Serial.available() > 0){
         char data = readDataFromSerial();
-        alertByBuzzer(data == 49);
+        alertByBuzzer(data == 50);
     }
-    else{
-      sendDataToSerial(String(temper + "\t" + state));
-    } // end of if
     delay(10);
 }
 ////////////// main sequence //////////////

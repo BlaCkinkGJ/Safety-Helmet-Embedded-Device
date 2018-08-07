@@ -3,6 +3,9 @@ import glob as PATH
 
 
 class Serial:
+    ALERT_ON  = 2
+    ALERT_OFF = 0
+
     def __init__(self, idx=0, rate=9600):
         self.ttyUSBList = PATH.glob('/dev/ttyUSB*')
         self.serial = SERIAL.Serial(self.ttyUSBList[idx], rate)

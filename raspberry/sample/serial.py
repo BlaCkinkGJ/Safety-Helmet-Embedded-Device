@@ -3,6 +3,7 @@ import glob
 
 value = glob.glob('/dev/ttyUSB*')
 ser = serial.Serial(value[0], 9600)
+ser.xonxoff = 1
 
 if not ser.isOpen():
     ser.open()
@@ -10,7 +11,8 @@ if not ser.isOpen():
 try:
     while True:
         line = ser.readline()
-        data = (str(line.decode("utf-8"))).split()
+        if line is not []:
+            data = (str(line.decode("utf-8"))).split()
         #ser.write(b'I will kill you mother fucker')
         print(data)
 

@@ -46,10 +46,10 @@ class Eye(Detect):
         gray = self.clahe.apply(gray)
 
         rects    = self.find(gray, self.cascade)
-        #self.img = gray.copy()  # Only use the debug
+        self.img = gray.copy()  # Only use the debug
         self.pos = rects.copy()
 
-        #self.draw(self.img, self.pos)  # Only use the debug
+        self.draw(self.img, self.pos)  # Only use the debug
         self.rawCapture.truncate(0)
 
     def isExist(self):

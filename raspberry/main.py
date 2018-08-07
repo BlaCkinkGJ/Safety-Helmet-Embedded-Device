@@ -21,9 +21,9 @@ def EyeDetection():
             eye.analyze(frame)
             state = eye.isExist()
             print(state)
-            #cv2.imshow("Fuck", eye.img)
-            #key = cv2.waitKey(1) & 0xFF
-            #if key == ord("q"): break
+            cv2.imshow("Fuck", eye.img)
+            key = cv2.waitKey(1) & 0xFF
+            if key == ord("q"): break
     except KeyboardInterrupt:
         return 0;
 
