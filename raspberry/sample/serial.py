@@ -17,4 +17,7 @@ try:
         print(data)
 
 except KeyboardInterrupt:
+    print("Keyboard Interrupt Occured!!")
+
+finally:
     ser.close()
