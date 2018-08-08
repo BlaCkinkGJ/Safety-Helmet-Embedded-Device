@@ -41,10 +41,11 @@ void loop() {
     String  state  = getConnectedState();
     
     sendDataToSerial(String(temper + "\t" + state));
-    if(Serial.available() > 0){
+    if(Serial.available()){
         char data = readDataFromSerial();
         alertByBuzzer(data == 50);
     }
+    
     delay(10);
 }
 ////////////// main sequence //////////////

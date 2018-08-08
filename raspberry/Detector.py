@@ -27,14 +27,19 @@ class Detect:
 
 
 class Eye(Detect):
+
     def __init__(self, cascade_path = "", climit = 2.0, tgsize = (8, 8)):
         super().__init__()
 
-        self.path    = cascade_path
-        self.cascade = cv2.CascadeClassifier(self.path)
-        self.clahe   = cv2.createCLAHE(clipLimit=climit, tileGridSize=tgsize)
-        self.img     = []  # Only use the debug
-        self.pos     = []
+        self.path       = cascade_path
+        self.cascade    = cv2.CascadeClassifier(self.path)
+        self.clahe      = cv2.createCLAHE(clipLimit=climit, tileGridSize=tgsize)
+        self.img        = []  # Only use the debug
+        self.pos        = []
+        self.totalClose = 0
+        self.counter    = 0
+        self.saveResult = 0
+        self.MAX        = self.camera.framerate
 
         time.sleep(0.1)  # camera warm-up
 
@@ -46,17 +51,34 @@ class Eye(Detect):
         gray = self.clahe.apply(gray)
 
         rects    = self.find(gray, self.cascade)
-        self.img = gray.copy()  # Only use the debug
+        #self.img = gray.copy()  # Only use the debug
         self.pos = rects.copy()
 
-        self.draw(self.img, self.pos)  # Only use the debug
+        #self.draw(self.img, self.pos)  # Only use the debug
         self.rawCapture.truncate(0)
 
-    def isExist(self):
+    def isClose(self):
         if len(self.pos) == 0:
-            return False
-        else:
             return True
+        else:
+            return False
+
+    def sleepPercentage(self):
+        if self.isClose():
+            self.totalClose += 1
+
+        self.counter += 1
+
+        result = self.totalClose / self.MAX
+        result = (4*self.saveResult + 7*result) / 11
+
+        if self.counter >= self.MAX:
+            self.counter = 0
+            self.totalClose = 0
+            self.saveResult = result
+
+        if result > 1.0: result = 1.0
+        return result
 
     def getFrame(self):
         return self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True)
