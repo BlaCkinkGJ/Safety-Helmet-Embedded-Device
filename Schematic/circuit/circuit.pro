@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 update=2018-08-08 오후 2:53:28
+=======
+update=22/05/2015 07:44:53
+>>>>>>> 14a51894351397bdbcd010afb53fa59d0582faa7
 version=1
 last_client=kicad
 [general]
@@ -31,6 +35,7 @@ NetIExt=net
 version=1
 LibDir=
 [eeschema/libraries]
+<<<<<<< HEAD
 [schematic_editor]
 version=1
 PageLayoutDescrFile=
@@ -41,3 +46,5 @@ NetFmtName=
 SpiceAjustPassiveValues=0
 LabSize=50
 ERC_TestSimilarLabels=1
+=======
+>>>>>>> 14a51894351397bdbcd010afb53fa59d0582faa7
