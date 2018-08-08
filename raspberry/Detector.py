@@ -83,4 +83,3 @@ class Eye(Detect):
     def getFrame(self):
         return self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True)
 
-
