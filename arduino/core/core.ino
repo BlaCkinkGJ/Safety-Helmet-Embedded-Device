@@ -37,14 +37,15 @@ void setup() {
   temperModule.readSensor();
 }
 void loop() {
-    String temper = getTemperature();
+    String  temper = getTemperature();
     String  state  = getConnectedState();
+    char    data   = 0;
     
     sendDataToSerial(String(temper + "\t" + state));
-    if(Serial.available()){
-        char data = readDataFromSerial();
-        alertByBuzzer(data == 50);
-    }
+
+    if(Serial.available()) data = readDataFromSerial();
+
+    alertByBuzzer(data == 50 || state == "0");
     
     delay(10);
 }
@@ -78,6 +79,7 @@ int sendDataToSerial(String data){
 }
 
 int alertByBuzzer(int alert){
+    // Serial.println(alert);
     if(alert) tone  (PORT_BUZZER, 1000);
     else      noTone(PORT_BUZZER);
 
