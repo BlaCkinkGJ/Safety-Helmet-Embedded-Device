@@ -17,9 +17,10 @@ def EyeDetection(account):
     counter = 0
 
     # default : '13.124.96.176'
-    con = Connector.Connector(ip = '192.168.1.13', port=3000, method=Connector.CONNECTED_TCP)
+    con = Connector.Connector(ip = '13.124.96.176', port=3000, method=Connector.CONNECTED_TCP)
 
     try:
+        print("start")
         eye = det.Eye(cascade_path="/home/pi/opencv/opencv-3.4.1/data/haarcascades/haarcascade_eye_tree_eyeglasses.xml")
         for frame in eye.getFrame():
             eye.analyze(frame)

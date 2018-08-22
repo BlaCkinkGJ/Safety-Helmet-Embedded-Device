@@ -1,5 +1,5 @@
-from Server import Connector
-from Server import DB as database
+import Connector
+import DB as database
 import json
 import threading
 import queue
@@ -13,7 +13,7 @@ TIMER_GAP = 0.25
 
 def processing(data):
     data = json.loads(data)
-    print("push ", data['_id'])
+    # print("push ", data['_id'])
     queueLock.acquire()
     waitList.put(data)
     queueLock.release()
@@ -25,7 +25,7 @@ class pushProcessing:
         pass
 
     def flushing(self):
-        print("flushing all data")
+        # print("flushing all data")
         queueLock.acquire()
         while not waitList.empty():
             data = waitList.get()
@@ -35,11 +35,11 @@ class pushProcessing:
         queueLock.release()
         threading.Timer(TIMER_GAP+random.random(), self.flushing).start()
 
+MY_IP = '172.31.18.210'
 
 if __name__ == "__main__":
     pushProcessing().flushing()
-    DB = database.DB(ip = '13.124.96.176', port = 27017, table='employees')
-    # must change the 13.124.96.176
-    getProcessing = Connector.Server(host='192.168.1.13', port=3000)
+    DB = database.DB(ip = MY_IP, port = 27017, table='employees')
+    getProcessing = Connector.Server(host=MY_IP, port=3000)
     getProcessing.run(processing)
 
