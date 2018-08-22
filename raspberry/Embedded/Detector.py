@@ -3,7 +3,6 @@ from picamera import PiCamera
 import time
 import cv2
 
-
 class Detect:
     def __init__(self, camera: object = PiCamera(), resolution: object = (640, 480), framerate: object = 32) -> object:
         self.camera = camera
@@ -37,9 +36,8 @@ class Eye(Detect):
         self.img        = []  # Only use the debug
         self.pos        = []
         self.totalClose = 0
+        self.timer      = time.time()
         self.counter    = 0
-        self.saveResult = 0
-        self.MAX        = self.camera.framerate
 
         time.sleep(0.1)  # camera warm-up
 
@@ -64,20 +62,18 @@ class Eye(Detect):
             return False
 
     def sleepPercentage(self):
+        now = time.time()
         if self.isClose():
             self.totalClose += 1
 
         self.counter += 1
+        result = self.totalClose / self.counter
 
-        result = self.totalClose / self.MAX
-        result = (4*self.saveResult + 7*result) / 11
-
-        if self.counter >= self.MAX:
-            self.counter = 0
+        if now - self.timer > 1.0 :
+            self.timer = now
             self.totalClose = 0
-            self.saveResult = result
+            self.counter = 0
 
-        if result > 1.0: result = 1.0
         return result
 
     def getFrame(self):

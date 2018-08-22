@@ -18,17 +18,28 @@ class Serial:
 
     def getData(self):
         data = None
+        isChanged = False
         try:
             data = self.serial.readline()
-            self.serial.flushInput()
             if data is not None:
-                data = (str(data.decode('utf-8'))).split()
+                temp = (str(data.decode('utf-8'))).split()
+                if len(temp) > 1:
+                    parity = int(temp[-1])
+                    # except '\r', '\t', '\n'
+                    dataLength = len(data) - len(temp[-1]) - 3
+                    if dataLength == parity:
+                        data = temp[:-1]
+                        isChanged = True
         except AssertionError or KeyboardInterrupt:
             print("HART SEQUENCE DETECTED")
+        self.serial.flushOutput()
+        if not isChanged:
+            data = []
         return data
 
     def setData(self, data=b'0'):
         self.serial.write(data)
+        self.serial.flushInput()
 
     def __del__(self):
         self.serial.close()

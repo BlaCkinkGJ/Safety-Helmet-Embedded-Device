@@ -1,3 +1,6 @@
+#include <Timer.h>
+#include <Event.h>
+
 #include <cactus_io_DS18B20.h>
 
 /*** Function declaration is here ***/
@@ -6,19 +9,27 @@ String  getConnectedState  (void);
 char    readDataFromSerial (void);
 int     sendDataToSerial   (String data);
 int     alertByBuzzer      (int   alert);
+void    serialProcessing   (void);
 /*** Function declaration is here ***/
 
-/*** Port information is here ***/
+/*** Constant information is here ***/
 enum port {
     PORT_DS18B20       = 2,
     PORT_BUZZER        = 5,
     PORT_CONNECTOR_IN  = 4,
     PORT_CONNECTOR_OUT = 3
 };
-/*** Port information is here ***/
+
+const unsigned long TIMER_SAMPLING     = 100;
+/*** Constant information is here ***/
 
 /*** Global Variables are here ***/
 DS18B20   temperModule(PORT_DS18B20);
+Timer     serialTimer;
+
+String  temper = "";
+String  state  = "";
+char    data   = 0;
 /*** Global Variables are here ***/
 
 
@@ -35,19 +46,16 @@ void setup() {
 
   // Start the read DS18B20 module
   temperModule.readSensor();
+
+  // Serial Timer Setting
+  serialTimer.every(TIMER_SAMPLING, serialProcessing);
 }
 void loop() {
-    String  temper = getTemperature();
-    String  state  = getConnectedState();
-    char    data   = 0;
-    
-    sendDataToSerial(String(temper + "\t" + state));
-
-    if(Serial.available()) data = readDataFromSerial();
-
+    temper = getTemperature();
+    state  = getConnectedState();
+    serialTimer.update();
     alertByBuzzer(data == 50 || state == "0");
     
-    delay(10);
 }
 ////////////// main sequence //////////////
 
@@ -84,5 +92,11 @@ int alertByBuzzer(int alert){
     else      noTone(PORT_BUZZER);
 
     return alert;
+}
+
+void serialProcessing(void){
+    String data = String(temper + "\t" + state);
+    sendDataToSerial(String(data + "\t" + String(data.length())));
+    if(Serial.available()) data = readDataFromSerial();
 }
 /*** Function definition is here ***/
