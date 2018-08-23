@@ -1,5 +1,4 @@
-var express   = require('express'),
-    client    = require('mongodb').MongoClient;
+var express = require('express'),
     employees = require('./routes/employees'),
     app = express();
 
