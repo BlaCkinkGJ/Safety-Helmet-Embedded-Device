@@ -12,8 +12,9 @@ class DB:
             'sleep'     : None,
             'temper'    : None,
             'connected' : None,
-            'WiFi'      : None
-        }
+            'WiFi'      : None,
+			'Time'      : None
+        } # Time added
 
         self.fieldList = ['_id', 'name', 'sleep', 'temper', 'connected', 'WiFi']
 
@@ -24,7 +25,8 @@ class DB:
             'sleep'     : None,
             'temper'    : None,
             'connected' : None,
-            'WiFi'      : None
+            'WiFi'      : None,
+            'Time'      : None
         }
 
     def isExist(self, id, name):

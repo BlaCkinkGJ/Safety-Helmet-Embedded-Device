@@ -1,4 +1,6 @@
-from Embedded import Detector as det, Connector
+import Detector as det, Connector
+import sys
+import re
 
 
 def DataProcessing(con, sleep, account):
@@ -11,13 +13,18 @@ def DataProcessing(con, sleep, account):
         con.serial.setData(con.serial.ALERT_ON)
         return 0
 
+MY_IP = None
+MY_PORT = None
+
 
 def EyeDetection(account):
+    global MY_IP, MY_PORT
     sleep   = False
     counter = 0
 
-    # default : '13.124.96.176'
-    con = Connector.Connector(ip = '13.124.96.176', port=3000, method=Connector.CONNECTED_TCP)
+    # AWS Public Key
+    con = Connector.Connector(ip = MY_IP, port=MY_PORT, method=Connector.CONNECTED_TCP)
+    print("Connected to "+MY_IP+':'+str(MY_PORT))
 
     try:
         print("start")
@@ -30,19 +37,60 @@ def EyeDetection(account):
             if percent > 0.8 : counter += 1
             else             : counter = 0
 
-            if   counter > 10 : sleep = True
+            if   counter > 30 : sleep = True
+            # This statement just test statement
             elif counter == 0 : sleep = False
-
-            print(sleep)
 
             if DataProcessing(con, sleep, account) == -1:
                 return -1
 
     except KeyboardInterrupt:
+        print("end")
         return 0
+
+def command(opcode, operand):
+    global MY_IP, MY_PORT
+    returnVal = -1
+    if type(opcode) == str and type(operand) == str:
+        if opcode == '--host':
+            ipRegex = re.compile(r'^(\d{1,4}.\d{1,4}.\d{1,4}.\d{1,4})$')
+            result = ipRegex.search(operand)
+            if result is not None:
+                MY_IP = result.group()
+                returnVal = 0
+            else:
+                print("[--host] You have to write IPv4(xxx.xxx.xxx.xxx)")
+        elif opcode == '--port':
+            if operand.isdecimal():
+                MY_PORT = int(operand)
+                returnVal = 0
+            else:
+                print("[--port] Decimal only command")
+        return returnVal
+
+def operateCommand(argv, argc):
+    commandStatus = 0
+    if argc == 3:
+        commandStatus |= command(argv[1], argv[2])
+    elif argc == 5:
+        commandStatus |= command(argv[1], argv[2])
+        commandStatus |= command(argv[3], argv[4])
+    else:
+        commandStatus |= -1
+
+    return commandStatus
 
 
 if __name__=="__main__":
+    if operateCommand(sys.argv, len(sys.argv)) == -1:
+        if len(sys.argv) > 1:
+            print('''[ Invalid Command ]
+You have to use like
+python main.py (--host 127.0.0.1) (--port 3000)\n''')
+        print("Operates in Default Setting")
+        MY_IP   = '127.0.0.1'
+        MY_PORT = 3000
+
     account = {
         'id' : 1,
         'name' : "오기준"

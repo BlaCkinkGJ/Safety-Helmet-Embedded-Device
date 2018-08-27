@@ -1,4 +1,4 @@
-from Embedded import DB, Serial
+import DB, Serial
 import subprocess
 import socket
 import json
