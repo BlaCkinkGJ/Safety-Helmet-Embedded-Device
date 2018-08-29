@@ -28,7 +28,7 @@ def EyeDetection(account):
 
     try:
         print("start")
-        eye = det.Eye(cascade_path="/home/pi/opencv/opencv-3.4.1/data/haarcascades/haarcascade_eye_tree_eyeglasses.xml")
+        eye = det.Eye(cascade_path="./opencv/haarcascades/haarcascade_eye_tree_eyeglasses.xml")
         for frame in eye.getFrame():
             eye.analyze(frame)
 
