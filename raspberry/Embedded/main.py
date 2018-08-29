@@ -1,7 +1,8 @@
 import Detector as det, Connector
 import sys
 import re
-
+import os
+from xml.etree.ElementTree import Element, SubElement, dump, ElementTree, parse
 
 def DataProcessing(con, sleep, account):
     if account is None or con is None or sleep is None:
@@ -13,8 +14,8 @@ def DataProcessing(con, sleep, account):
         con.serial.setData(con.serial.ALERT_ON)
         return 0
 
-MY_IP = None
-MY_PORT = None
+MY_IP = '127.0.0.1'
+MY_PORT = 3000
 
 
 def EyeDetection(account):
@@ -80,6 +81,36 @@ def operateCommand(argv, argc):
 
     return commandStatus
 
+def getAccount():
+    result = {
+        'id': None,
+        'name': None
+    }
+    if not os.path.exists('data.xml'):
+        data = Element("LoginData")
+
+        while True:
+            result['id'] = input("ID 값을 입력해주십시오 : ")
+            result['name'] = input("이름을 입력해주십시오 : ")
+            if result['id'].isdecimal():
+                break
+            else:
+                print("잘못된 ID 값입니다. 다시 수행해주십시오.")
+
+        SubElement(data, "id").text = result['id']
+        SubElement(data, "name").text = result['name']
+
+        ElementTree(data).write("data.xml")
+    else:
+        tree = parse("data.xml")
+        data = tree.getroot()
+        result['id'] = data.findtext("id")
+        result['name'] = data.findtext("name")
+
+    if result['id'] is not None:
+        result['id'] = int(result['id'])
+
+    return result
 
 if __name__=="__main__":
     if operateCommand(sys.argv, len(sys.argv)) == -1:
@@ -91,8 +122,7 @@ python main.py (--host 127.0.0.1) (--port 3000)\n''')
         MY_IP   = '127.0.0.1'
         MY_PORT = 3000
 
-    account = {
-        'id' : 1,
-        'name' : "오기준"
-    }
-    EyeDetection(account)
+    account = getAccount()
+
+    if account['id'] is not None and account['name'] is not None:
+        EyeDetection(account)
