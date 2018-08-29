@@ -18,7 +18,10 @@ def processing(data):
     data = json.loads(data)
     # print("push ", data['_id'])
     queueLock.acquire()
-    waitList.put(data)
+    try:
+        waitList.put(data)
+    except InterruptedError or KeyboardInterrupt:
+        if queueLock.locked(): queueLock.release()
     queueLock.release()
     return None
 
@@ -38,6 +41,10 @@ class pushProcessing:
                 DB.upload()
         queueLock.release()
         threading.Timer(TIMER_GAP+random.random(), self.flushing).start()
+
+    def __del__(self):
+        if queueLock.locked() == True:
+            queueLock.release()
 
 MY_IP = '127.0.0.1' # AWS Private Key
 MY_PORT = 3000

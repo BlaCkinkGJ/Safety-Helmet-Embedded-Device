@@ -18,7 +18,7 @@ class Socket:
         self.socket.connect((self.host, self.port))
 
     def run(self, data):
-        self.socket.send(data.encode('ascii'))
+        self.socket.send(data.encode('utf8'))
         """
         # No use now
         recv = self.socket.recv(1024)

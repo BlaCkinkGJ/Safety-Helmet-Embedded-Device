@@ -7,23 +7,21 @@ class Server:
         self.port   = port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        self.connect = None
-        self.address = None
-
-    def connection(self, callback, MAX_SIZE=1024):
-        print('connected    > ', self.address[0], ':', self.address[1])
-        if self.connect is None or self.address is None:
+    def connection(self, callback, accept, MAX_SIZE=1024):
+        connect, address = accept
+        print('connected    > ', address[0], ':', address[1])
+        if connect is None or address is None:
             return -1
         try:
             while True:
-                data = self.connect.recv(MAX_SIZE)
+                data = connect.recv(MAX_SIZE)
                 if not data: break
-                recv = callback(data.decode('ascii'))
-                if recv is not None: self.connect.send(recv.encode('ascii'))
+                recv = callback(data.decode('utf8'))
+                if recv is not None: connect.send(recv.encode('utf8'))
         except InterruptedError:
             print('INTERRUPT OCCUR')
         finally:
-            print('disconnected > ', self.address[0], ':', self.address[1])
+            print('disconnected > ', address[0], ':', address[1])
             return 0
 
     def run(self, callback, backlog = 5):
@@ -34,9 +32,7 @@ class Server:
         while True:
             try:
                 con, addr = self.socket.accept()
-                self.connect = con
-                self.address = addr
-                start_new_thread(self.connection, (callback,))
+                start_new_thread(self.connection, (callback,(con, addr)))
             except InterruptedError:
                 print("Disconnected")
                 self.socket.close()

@@ -54,7 +54,7 @@ void loop() {
     temper = getTemperature();
     state  = getConnectedState();
     serialTimer.update();
-    alertByBuzzer(data == 50 || state == "0");
+    alertByBuzzer(data == '2' || state == "0");
     
 }
 ////////////// main sequence //////////////
@@ -95,8 +95,8 @@ int alertByBuzzer(int alert){
 }
 
 void serialProcessing(void){
-    String data = String(temper + "\t" + state);
-    sendDataToSerial(String(data + "\t" + String(data.length())));
+    String temp = String(temper + "\t" + state);
+    sendDataToSerial(String(temp + "\t" + String(temp.length())));
     if(Serial.available()) data = readDataFromSerial();
 }
 /*** Function definition is here ***/
