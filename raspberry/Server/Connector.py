@@ -15,14 +15,14 @@ class Server:
         try:
             while True:
                 data = connect.recv(MAX_SIZE)
+                print(data)
                 if not data: break
                 recv = callback(data.decode('utf8'))
                 if recv is not None: connect.send(recv.encode('utf8'))
         except InterruptedError:
             print('INTERRUPT OCCUR')
-        finally:
-            print('disconnected > ', address[0], ':', address[1])
-            return 0
+        print('disconnected > ', address[0], ':', address[1])
+        return 0
 
     def run(self, callback, backlog = 5):
         print('READY')
