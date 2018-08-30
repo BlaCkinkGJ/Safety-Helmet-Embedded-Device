@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="11280b72-72ed-43fa-a78c-6cc9f245f3f2" name="Default" comment="kkkkkkkkkkk">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/R_User_Library.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pipeline.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sample/dataTable.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Admin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Admin.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="11280b72-72ed-43fa-a78c-6cc9f245f3f2" name="Default" comment="kkkkkkkkkk">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DB.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/DB.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/status.py" beforeDir="false" afterPath="$PROJECT_DIR$/res/status.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,14 +12,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Admin$main.coverage" NAME="main Coverage Results" MODIFIED="1535639423536" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Admin$sample.coverage" NAME="sample Coverage Results" MODIFIED="1535639544282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sample" />
+    <SUITE FILE_PATH="coverage/Admin$main.coverage" NAME="main Coverage Results" MODIFIED="1535651597420" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Admin$sample.coverage" NAME="sample Coverage Results" MODIFIED="1535643106565" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/sample" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-1324784266">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.17" value="1" />
           <entry key="project.opened" value="2" />
@@ -36,25 +28,25 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="1" />
-          <entry key="py" value="30781" />
-          <entry key="txt" value="11" />
+          <entry key="py" value="41581" />
+          <entry key="txt" value="21" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="12" />
-          <entry key="Python" value="30781" />
+          <entry key="PLAIN_TEXT" value="22" />
+          <entry key="Python" value="41581" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="33" />
+          <entry key="Python" value="38" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="33" />
+          <entry key="py" value="38" />
         </counts>
       </usages-collector>
     </session>
@@ -64,9 +56,21 @@
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/main.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="285">
+                  <caret line="15" selection-start-line="15" selection-end-line="15" />
+                  <folding>
+                    <element signature="e#0#22#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/res/signUp.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="399">
+                <state relative-caret-position="684">
                   <caret line="168" column="17" lean-forward="true" selection-start-line="168" selection-start-column="17" selection-end-line="168" selection-end-column="17" />
                   <folding>
                     <element signature="e#194#236#0" expanded="true" />
@@ -81,8 +85,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/res/signIn.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="419">
-                  <caret line="125" lean-forward="true" selection-start-line="125" selection-end-line="125" />
+                <state relative-caret-position="2318">
+                  <caret line="122" column="31" selection-start-line="122" selection-start-column="31" selection-end-line="122" selection-end-column="31" />
                   <folding>
                     <element signature="e#194#236#0" expanded="true" />
                     <marker date="1535636278393" expanded="true" signature="5647:5651" ph="..." />
@@ -94,11 +98,48 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/res/status.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="623">
-                  <caret line="233" selection-start-line="233" selection-end-line="233" />
+                <state relative-caret-position="6384">
+                  <caret line="336" column="70" selection-start-line="336" selection-start-column="70" selection-end-line="336" selection-end-column="70" />
                   <folding>
                     <element signature="e#194#236#0" expanded="true" />
+                    <marker date="1535651568166" expanded="true" signature="12848:13148" ph="..." />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://D:/Dev/Anaconda/Lib/site-packages/pandas/core/base.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="235">
+                  <caret line="60" selection-start-line="60" selection-end-line="60" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://D:/Dev/Anaconda/Lib/site-packages/pandas/core/series.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="224">
+                  <caret line="1225" selection-start-line="1225" selection-end-line="1225" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://D:/Dev/Anaconda/Lib/site-packages/matplotlib/axes/_axes.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="452">
+                  <caret line="2857" selection-start-line="2857" selection-end-line="2857" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://D:/Dev/Anaconda/Lib/site-packages/matplotlib/__init__.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="256">
+                  <caret line="1854" selection-start-line="1854" selection-end-line="1854" />
                 </state>
               </provider>
             </entry>
@@ -107,11 +148,11 @@
       </split-first>
       <split-second>
         <leaf>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/sample/dataTable.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="304">
-                  <caret line="92" column="25" selection-start-line="92" selection-start-column="25" selection-end-line="92" selection-end-column="25" />
+                <state relative-caret-position="1261">
+                  <caret line="86" lean-forward="true" selection-start-line="86" selection-end-line="86" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
                     <marker date="1535626670307" expanded="true" signature="373:377" ph="..." />
@@ -120,15 +161,15 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/sample/matplot.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="310">
-                  <caret line="79" selection-start-line="79" selection-end-line="79" />
+                <state relative-caret-position="1235">
+                  <caret line="65" column="38" selection-start-line="65" selection-start-column="38" selection-end-line="65" selection-end-column="38" />
                   <folding>
                     <element signature="e#1#11#0" expanded="true" />
-                    <marker date="1535614338307" expanded="true" signature="1366:1568" ph="..." />
-                    <marker date="1535614338307" expanded="true" signature="2271:2762" ph="..." />
+                    <marker date="1535645178798" expanded="true" signature="1366:1568" ph="..." />
+                    <marker date="1535645178798" expanded="true" signature="2271:2762" ph="..." />
                   </folding>
                 </state>
               </provider>
@@ -157,7 +198,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/DB.py" />
-        <option value="$PROJECT_DIR$/sample/matplot.py" />
         <option value="$PROJECT_DIR$/sign_in.py" />
         <option value="$PROJECT_DIR$/signUp.py" />
         <option value="$PROJECT_DIR$/status.py" />
@@ -168,6 +208,7 @@
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/res/signUp.py" />
         <option value="$PROJECT_DIR$/res/signIn.py" />
+        <option value="$PROJECT_DIR$/sample/matplot.py" />
         <option value="$PROJECT_DIR$/res/status.py" />
       </list>
     </option>
@@ -178,9 +219,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="374" />
-    <option name="y" value="765" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="470" />
+    <option name="y" value="-17" />
     <option name="width" value="974" />
     <option name="height" value="1026" />
   </component>
@@ -243,7 +284,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.sample">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python">
       <module name="Admin" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -307,15 +348,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="374" y="765" width="974" height="1026" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.40043762" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19509594" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.15039282" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.14549403" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.23995657" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -434,16 +474,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sample/GUI.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="321">
@@ -463,7 +493,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/signUp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
+        <state relative-caret-position="684">
           <caret line="168" column="17" lean-forward="true" selection-start-line="168" selection-start-column="17" selection-end-line="168" selection-end-column="17" />
           <folding>
             <element signature="e#194#236#0" expanded="true" />
@@ -474,10 +504,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://D:/Dev/Anaconda/Lib/site-packages/matplotlib/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="1854" selection-start-line="1854" selection-end-line="1854" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Dev/Anaconda/Lib/site-packages/matplotlib/axes/_axes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="452">
+          <caret line="2857" selection-start-line="2857" selection-end-line="2857" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Dev/Anaconda/Lib/site-packages/pandas/core/series.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="1225" selection-start-line="1225" selection-end-line="1225" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Dev/Anaconda/Lib/site-packages/pandas/core/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="60" selection-start-line="60" selection-end-line="60" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/res/signIn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="125" lean-forward="true" selection-start-line="125" selection-end-line="125" />
+        <state relative-caret-position="2318">
+          <caret line="122" column="31" selection-start-line="122" selection-start-column="31" selection-end-line="122" selection-end-column="31" />
           <folding>
             <element signature="e#194#236#0" expanded="true" />
             <marker date="1535636278393" expanded="true" signature="5647:5651" ph="..." />
@@ -485,20 +543,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/status.py">
+    <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="623">
-          <caret line="233" selection-start-line="233" selection-end-line="233" />
+        <state relative-caret-position="285">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
           <folding>
-            <element signature="e#194#236#0" expanded="true" />
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sample/matplot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1235">
+          <caret line="65" column="38" selection-start-line="65" selection-start-column="38" selection-end-line="65" selection-end-column="38" />
+          <folding>
+            <element signature="e#1#11#0" expanded="true" />
+            <marker date="1535645178798" expanded="true" signature="1366:1568" ph="..." />
+            <marker date="1535645178798" expanded="true" signature="2271:2762" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sample/dataTable.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="92" column="25" selection-start-line="92" selection-start-column="25" selection-end-line="92" selection-end-column="25" />
+        <state relative-caret-position="1261">
+          <caret line="86" lean-forward="true" selection-start-line="86" selection-end-line="86" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
             <marker date="1535626670307" expanded="true" signature="373:377" ph="..." />
@@ -506,14 +576,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sample/matplot.py">
+    <entry file="file://$PROJECT_DIR$/res/status.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="79" selection-start-line="79" selection-end-line="79" />
+        <state relative-caret-position="6384">
+          <caret line="336" column="70" selection-start-line="336" selection-start-column="70" selection-end-line="336" selection-end-column="70" />
           <folding>
-            <element signature="e#1#11#0" expanded="true" />
-            <marker date="1535614338307" expanded="true" signature="1366:1568" ph="..." />
-            <marker date="1535614338307" expanded="true" signature="2271:2762" ph="..." />
+            <element signature="e#194#236#0" expanded="true" />
+            <marker date="1535651568166" expanded="true" signature="12848:13148" ph="..." />
           </folding>
         </state>
       </provider>

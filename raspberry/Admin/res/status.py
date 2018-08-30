@@ -7,13 +7,100 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import *
 import pipeline as pipe
 import pandas as pd
+import time
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import re
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
+def isFloat(element):
+    if type(element) == str and re.match("^\d+?\.\d+?$", element) is None:
+        return False
+    else:
+        return True
+
+class Graph(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+        self.setLayout(self.layout)
+
+    def initUI(self):
+
+        mpl.rcParams['font.size'] = 8.0
+        mpl.rcParams['font.family'] = 'NanumGothic'
+        self.fig = []
+        self.canvas = []
+        btnLayout = []
+        for i in range(4):
+            self.fig.append(plt.Figure())
+            self.canvas.append(FigureCanvas(self.fig[i]))
+            if i % 2  == 0:
+                btnLayout.append(QVBoxLayout())
+            btnLayout[i//2].addWidget(self.canvas[i])
+
+        self.layout = QHBoxLayout()
+        for i in range(2):
+            self.layout.addLayout(btnLayout[i])
+        self.value = 10
+
+    def drawGraph(self, idx, data):
+        title = ['턱끈 연결 현황', '졸음 현황', '통신 연결 현황', '온도 상태']
+        self.fig[idx].clear()
+        ax = self.fig[idx].subplots()
+
+        # 'Connect' Pie chart
+        sizes, labels = self.dataProcessing(idx, data)
+        explode = (0, 0.1)  # only "explode" the 2nd slice (i.e. 'Hogs')
+
+        ax.pie(sizes, autopct='%1.1f%%')
+        ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+        ax.legend(title=title[idx], labels=labels)
+        self.canvas[idx].draw()
+
+    def dataProcessing(self,idx, data):
+        index = {
+            'connected': 0,
+            'sleep': 1,
+            'time': 2,
+            'temperature': 3
+        }
+        MAX_TIME = 5.0
+        boundTime = {
+            'gt' : 30.0,
+            'lt' : 0.0
+        }
+        sizes, labels = None, None
+        if idx == index['connected']:
+            sizes = data
+            labels = ['connect', 'disconnect']
+        elif idx == index['sleep']:
+            sizes = data
+            labels = ['sleep', 'not sleep']
+        elif idx == index['time']:
+            sizes = [0, 0]
+            for T in data.values:
+                if time.time() - float(T) < MAX_TIME:
+                    sizes[0] += 1 # connect
+                else:
+                    sizes[1] += 1 # disconnect
+            labels = ['connect', 'disconnect']
+        elif idx == index['temperature']:
+            sizes = [0, 0]
+            for T in data.values:
+                if boundTime['lt'] < float(T) <= boundTime['gt']:
+                    sizes[0] += 1 # NORMAL
+                else:
+                    sizes[1] += 1 # DANGER
+            labels = ['normal', 'danger']
+
+        return sizes, labels
 
 class Ui_Form(object):
     def setupUi(self, Form):
-        self.dataFrame = {}
         pipe.db.changeCollection('employees')
         Form.setObjectName("Form")
         Form.resize(921, 610)
@@ -87,11 +174,17 @@ class Ui_Form(object):
         self.gridLayout.addWidget(self.tableWidget, 1, 0, 1, 1)
         self.gridLayout_4.addLayout(self.gridLayout, 0, 0, 1, 1)
         self.workerTab.addTab(self.List, "")
+        '''
         self.Status = QtWidgets.QWidget()
         self.Status.setObjectName("Status")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.Status)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.workerTab.addTab(self.Status, "")
+        '''
+        self.graph = Graph()
+        font = QtGui.QFont()
+        font.setFamily("나눔스퀘어 Bold")
+        self.graph.setFont(font)
+        self.workerTab.addTab(self.graph, "")
         self.searchTitle = QtWidgets.QLabel(self.groupBox)
         self.searchTitle.setGeometry(QtCore.QRect(20, 110, 121, 31))
         font = QtGui.QFont()
@@ -187,7 +280,7 @@ class Ui_Form(object):
         item = self.tableWidget.horizontalHeaderItem(6)
         item.setText(_translate("Form", "마지막 접속 시간"))
         self.workerTab.setTabText(self.workerTab.indexOf(self.List), _translate("Form", "Workers List"))
-        self.workerTab.setTabText(self.workerTab.indexOf(self.Status), _translate("Form", "Workers Status"))
+        self.workerTab.setTabText(self.workerTab.indexOf(self.graph), _translate("Form", "Workers Status"))
         self.searchTitle.setText(_translate("Form", "작업자 검색"))
         self.searchButton.setText(_translate("Form", "Search"))
         self.exportButton.setText(_translate("Form", "Export"))
@@ -211,6 +304,19 @@ class Ui_Form(object):
                 dict[key].append(val)
         self.df = pd.DataFrame(data=dict)
         self.getAllData()
+        self.drawGraph()
+
+    def drawGraph(self):
+        index = {
+            'connected': 0,
+            'sleep' : 1,
+            'time' : 2,
+            'temperature' : 3
+        }
+        self.graph.drawGraph(index['connected'], self.df['connected'].value_counts())
+        self.graph.drawGraph(index['sleep'], self.df['sleep'].value_counts())
+        self.graph.drawGraph(index['time'], self.df['Time'])
+        self.graph.drawGraph(index['temperature'], self.df['temper'])
 
     def getAllData(self):
         index = {
@@ -225,13 +331,46 @@ class Ui_Form(object):
         self.tableWidget.setRowCount(len(self.df.index))
         self.tableWidget.setColumnCount(len(self.df.columns))
 
-        for (key, content) in self.df.items():
+        for key, content in self.df.items():
+            col = index[key]
             for row, val in enumerate(content):
-                self.tableWidget.setItem(row, index[key], QtWidgets.QTableWidgetItem(str(val)))
+                raw = val # time을 재변환 하는 것 보단 변수를 하나 더 사용하는 것이 이득이라 판단.
+                if key == 'Time':
+                    val = str(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(val)))
+                self.tableWidget.setItem(row, col, QtWidgets.QTableWidgetItem(str(val)))
+                if self.statusCheck(row, col, str(raw)):
+                    self.tableWidget.item(row, col).setBackground(QtGui.QColor(255, 0, 0))
 
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
+    def statusCheck(self, row, col, data = ""):
+        field = {
+            '_id': 0,
+            'connected': 3,
+            'temper': 2,
+            'name': 1,
+            'sleep': 4,
+            'WiFi': 5,
+            'Time': 6
+        }
+        result = False
+        if col == field['_id']: pass
+        elif col == field['connected']:
+            if data == '0':
+                result = True
+        elif col == field['temper']: pass
+        elif col == field['name']: pass
+        elif col == field['sleep']:
+            if data == 'True':
+                result = True
+        elif col == field['WiFi']: pass
+        elif col == field['Time']:
+            if isFloat(data) or data.isdecimal():
+                if time.time() - float(data) > 5.0:
+                    result = True
+        else: print("Invalid Value Occur")
+        return result
 
 from res import LOGO_rc
 
