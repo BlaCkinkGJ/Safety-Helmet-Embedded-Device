@@ -9,10 +9,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from res import signUp, status
 import pipeline as pipe
+from PyQt5.QtWidgets import QMessageBox as msgbox
 
 class Ui_Form(object):
     def setupUi(self, Form):
-        pipe.db.changeCollection('admin')
+        pipe.db.changeCollection(pipe.info['loginDB'])
         Form.setObjectName("Form")
         Form.resize(338, 277)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -109,7 +110,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "작업자 통합 관리 시스템"))
         self.MainLabel.setText(_translate("Form", "작업자 통합 관리시스템"))
         self.LogInBox.setTitle(_translate("Form", "Log-in"))
         self.SignIn.setText(_translate("Form", "Sign In"))
@@ -125,12 +126,15 @@ class Ui_Form(object):
         password = hashlib.sha256(password.encode()).hexdigest()
 
         isExist = pipe.db.collection.find_one({'username': username, 'password': password}) is not None
-        temp = pipe.window
-        pipe.window = QtWidgets.QWidget()
-        pipe.ui = status.Ui_Form()
-        pipe.ui.setupUi(pipe.window)
-        pipe.window.show()
-        temp.close()
+        if isExist:
+            temp = pipe.window
+            pipe.window = QtWidgets.QWidget()
+            pipe.ui = status.Ui_Form()
+            pipe.ui.setupUi(pipe.window)
+            pipe.window.show()
+            temp.close()
+        else:
+            msgbox.question(pipe.window, '로그인 실패', '계정을 찾을 수 없습니다.', msgbox.Yes, msgbox.Yes)
 
 
     def signUpButton(self):

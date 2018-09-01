@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import QMessageBox
 
 class Ui_Form(object):
     def setupUi(self, Form):
-        pipe.db.changeCollection('admin')
+        pipe.db.changeCollection(pipe.info['loginDB'])
         Form.setObjectName("Form")
         Form.resize(288, 297)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -119,7 +119,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "작업자 통합 관리 시스템"))
         self.groupBox.setTitle(_translate("Form", "Registration"))
         self.Email.setText(_translate("Form", "E-mail"))
         self.userName.setText(_translate("Form", "Username"))
@@ -180,7 +180,6 @@ class Ui_Form(object):
             pipe.ui.setupUi(pipe.window)
             pipe.window.show()
             temp.close()
-
 
 
 
