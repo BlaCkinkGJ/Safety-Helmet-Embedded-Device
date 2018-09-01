@@ -1,0 +1,6 @@
+<LoginData>
+	<ip>34.214.27.59</ip>
+	<port>27017</port>
+	<loginDB>admin</loginDB>
+	<dataDB>employees</dataDB>
+</LoginData>
