@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from res import signIn
 import sys
 from PyQt5 import QtWidgets, QtGui

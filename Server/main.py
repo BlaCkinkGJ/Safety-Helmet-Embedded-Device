@@ -1,3 +1,4 @@
+#!usr/bin/python3
 import Connector
 import DB as database
 import json

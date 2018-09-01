@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import Detector as det, Connector
 import sys
 import re
