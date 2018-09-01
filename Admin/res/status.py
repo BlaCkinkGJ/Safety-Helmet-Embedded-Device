@@ -419,7 +419,7 @@ class Ui_Form(object):
         elif col == field['WiFi']: pass
         elif col == field['Time']:
             if isFloat(data) or data.isdecimal():
-                if time.time() - float(data) > 5.0:
+                if time.time() - float(data) > MAX_TIME:
                     result = True
         else: print("Invalid Value Occur")
         return result
@@ -449,11 +449,13 @@ class Ui_Form(object):
         QMessageBox.question(pipe.window, '완료', '클립보드로 복사되었습니다.', QMessageBox.Yes, QMessageBox.Yes)
 
     def graphGenerator(self, sheet, pos, find, color, start):
-        size, label = Graph().dataProcessing(index[find], self.df[find].value_counts())
+        if find == 'connected' or find == 'sleep': dataFrame = self.df[find].value_counts()
+        elif find == 'temper' or find == 'Time'  : dataFrame = self.df[find]
+        size, label = Graph().dataProcessing(index[find], dataFrame)
         total = size[0] + size[1]
         data = [
-            [label[0], ((size[0]/total) * 100)],
-            [label[1], ((size[1]/total) * 100)]
+            [label[0], size[0]],
+            [label[1], size[1]]
         ]
         sheet.cell(row = 1, column = pos).font = color
         sheet.cell(row = 1, column = pos).value = 'label'
