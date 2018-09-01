@@ -15,8 +15,6 @@ class Server:
         try:
             while True:
                 data = connect.recv(MAX_SIZE)
-                print(data)
-                if not data: break
                 recv = callback(data.decode('utf8'))
                 if recv is not None: connect.send(recv.encode('utf8'))
         except InterruptedError:
