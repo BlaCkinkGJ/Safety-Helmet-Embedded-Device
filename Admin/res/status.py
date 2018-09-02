@@ -276,7 +276,7 @@ class Ui_Form(object):
         self.Logo.setGeometry(QtCore.QRect(20, 20, 161, 91))
         self.Logo.setText("")
         self.Logo.setTextFormat(QtCore.Qt.RichText)
-        self.Logo.setPixmap(QtGui.QPixmap(":/logoIMG/logo.jpg"))
+        self.Logo.setPixmap(QtGui.QPixmap(":/logoIMG/logo.png"))
         self.Logo.setScaledContents(True)
         self.Logo.setObjectName("Logo")
 
