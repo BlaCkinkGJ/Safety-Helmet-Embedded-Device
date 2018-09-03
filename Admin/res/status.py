@@ -5,6 +5,7 @@
 # Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
+import copy
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
@@ -28,6 +29,7 @@ from openpyxl.chart import (
 )
 from openpyxl.chart.label import DataLabelList
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from threading import Thread
 
 
 index = {
@@ -122,9 +124,12 @@ class Graph(QWidget):
 
         return sizes, labels
 
+
 class Ui_Form(object):
     def setupUi(self, Form):
+        self.dict = {}
         pipe.db.changeCollection(pipe.info['dataDB'])
+        Thread(target=self.getDataFromDatabase).start()
         Form.setObjectName("Form")
         Form.resize(921, 610)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -291,16 +296,20 @@ class Ui_Form(object):
         Form.setTabOrder(self.copyButton, self.workerTab)
         Form.setTabOrder(self.workerTab, self.tableWidget)
 
-        self.getDataFromDatabase()
-
         self.databaseTimer = QtCore.QTimer(Form)
-        self.databaseTimer.timeout.connect(self.getDataFromDatabase)
+        self.databaseTimer.timeout.connect(self.draw)
         self.databaseTimer.start(1500)
+
+        self.findMethod = '_id'
+        self.findQuery = ''
+        self.regex = None
 
         self.searchButton.clicked.connect(self.search)
         self.printAllButton.clicked.connect(self.printAll)
         self.copyButton.clicked.connect(self.copyToClip)
         self.exportButton.clicked.connect(self.makeExcel)
+
+        self.draw()
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -338,10 +347,6 @@ class Ui_Form(object):
         self.ListBox.setItemText(6, _translate("Form", "접속 시간"))
         self.method.setText(_translate("Form", "방  법"))
 
-        self.findMethod = '_id'
-        self.findQuery = ''
-
-
     def getDataFromDatabase(self):
         data = pipe.db.collection.find()
         dict = {}
@@ -350,30 +355,32 @@ class Ui_Form(object):
         for row in data:
             for key, val in row.items():
                 dict[key].append(val)
-        self.df = pd.DataFrame(data=dict)
-        base = None
-        if self.findQuery != '':
-            query = self.find(self.findMethod, self.findQuery)
-            pos = self.df[self.findMethod].isin(query)
-            base = self.df.loc[pos]
-        else:
-            base = self.df
-        self.drawTable(base)
-        self.drawGraph()
+        self.dict = dict
+
+    def draw(self):
+        if self.dict and self.dict.keys() == field.keys():
+            self.df = pd.DataFrame(data=self.dict)
+            if self.findQuery != '':
+                query = self.find(self.findMethod, self.findQuery)
+                pos = self.df[self.findMethod].isin(query)
+                base = self.df.loc[pos]
+            else:
+                base = self.df
+            self.drawTable(base)
+            self.drawGraph()
+            Thread(target=self.getDataFromDatabase).start()
 
     def find(self, method, query):
         result = []
-        findData = query.split()
-        for data in findData:
-            for val in self.df[method].values:
-                temp = str(val)
-                if method == 'Time':
-                    temp = str(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(val)))
-                if method == 'connected':
-                    if temp == '1': temp = 'True'
-                    else: temp = 'False'
-                if re.match(data, temp) is not None:
-                    result.append(val)
+        for val in self.df[method].values:
+            temp = str(val)
+            if method == 'Time':
+                temp = str(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(val)))
+            if method == 'connected':
+                if temp == '1': temp = 'True'
+                else: temp = 'False'
+            if self.regex.search(temp) is not None:
+                result.append(val)
         return result
 
     def drawGraph(self):
@@ -398,6 +405,7 @@ class Ui_Form(object):
                 self.tableWidget.setItem(row, col, QtWidgets.QTableWidgetItem(str(val)))
                 if self.statusCheck(row, col, str(raw)):
                     self.tableWidget.item(row, col).setBackground(QtGui.QColor(255, 0, 0))
+                self.tableWidget.item(row, col).setFlags(QtCore.Qt.ItemIsEnabled)
 
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -425,14 +433,23 @@ class Ui_Form(object):
         return result
 
     def search(self):
+        query = self.lineEdit.text()
+        regex = None
+        try:
+            regex = re.compile(query)
+        except re.error:
+            QMessageBox.question(pipe.window, '오류', '잘못된 정규표현식 입니다. >' + query, QMessageBox.Yes, QMessageBox.Yes)
+            return
+        finally:
+            self.lineEdit.setText("")
         self.findMethod = item[self.ListBox.currentIndex()]
-        self.findQuery = self.lineEdit.text()
-        self.lineEdit.setText("")
-        self.getDataFromDatabase()
+        self.findQuery = query
+        self.regex = regex
+        self.draw()
 
     def printAll(self):
         self.findQuery = ""
-        self.getDataFromDatabase()
+        self.draw()
 
     def copyToClip(self):
         rowSize = self.tableWidget.rowCount()
@@ -449,8 +466,10 @@ class Ui_Form(object):
         QMessageBox.question(pipe.window, '완료', '클립보드로 복사되었습니다.', QMessageBox.Yes, QMessageBox.Yes)
 
     def graphGenerator(self, sheet, pos, find, color, start):
+        dataFrame = None
         if find == 'connected' or find == 'sleep': dataFrame = self.df[find].value_counts()
         elif find == 'temper' or find == 'Time'  : dataFrame = self.df[find]
+
         size, label = Graph().dataProcessing(index[find], dataFrame)
         total = size[0] + size[1]
         data = [
@@ -596,7 +615,6 @@ class Ui_Form(object):
                 +'현장 상태 보고서 ('+str(now.tm_hour)+'시'+str(now.tm_min)+'분'+').xlsx')
 
         QMessageBox.question(pipe.window, '완료', ' 엑셀 출력이 완료되었습니다.', QMessageBox.Yes, QMessageBox.Yes)
-
 from res import LOGO_rc
 
 if __name__ == "__main__":
