@@ -18,7 +18,10 @@ def DataProcessing(con, sleep, account):
         'WiFi' : 'sample'+str(account['id']),
         'Time' : time.time()
     }
-    S ^= True
+    if random() > 0.5:
+        S = True
+    else:
+        S = False
     if C == '1': C = '0'
     else: C = '1'
     con.pushToTarget(account['id'], account['name'], sleep)
