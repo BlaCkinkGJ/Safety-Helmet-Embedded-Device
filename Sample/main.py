@@ -5,10 +5,16 @@ import os
 from xml.etree.ElementTree import Element, SubElement, dump, ElementTree, parse
 import time
 from random import *
-S = True
-C = '1'
+
 def DataProcessing(con, sleep, account):
-    global S, C
+    if random() > 0.5:
+        S = True
+    else:
+        S = False
+    if random() > 0.5:
+        C = '1'
+    else:
+        C = '0'
     con.data = {
         '_id' : account['id'],
         'name' : account['name'],
@@ -18,12 +24,6 @@ def DataProcessing(con, sleep, account):
         'WiFi' : 'sample'+str(account['id']),
         'Time' : time.time()
     }
-    if random() > 0.5:
-        S = True
-    else:
-        S = False
-    if C == '1': C = '0'
-    else: C = '1'
     con.pushToTarget(account['id'], account['name'], sleep)
 
 MY_IP = '127.0.0.1'
