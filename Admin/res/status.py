@@ -354,6 +354,8 @@ class Ui_Form(object):
             dict[key] = []
         for row in data:
             for key, val in row.items():
+                if key == 'temper' and not isFloat(val):
+                    return
                 dict[key].append(val)
         self.dict = dict
 
