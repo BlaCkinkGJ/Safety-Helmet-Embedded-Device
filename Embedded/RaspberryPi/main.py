@@ -39,7 +39,7 @@ def EyeDetection(account):
             if percent > 0.8 : counter += 1
             else             : counter = 0
 
-            if   counter > 30 : sleep = True
+            if   counter > 15 : sleep = True
             # This statement just test statement
             elif counter == 0 : sleep = False
 
