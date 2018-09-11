@@ -2,6 +2,7 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time
 import cv2
+import imutils
 
 class Detect:
     def __init__(self, camera: object = PiCamera(), resolution: object = (640, 480), framerate: object = 32) -> object:
@@ -43,6 +44,7 @@ class Eye(Detect):
 
     def analyze(self, frame):
         img = frame.array
+        img = imutils.rotate_bound(img, 180)
 
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         gray = cv2.equalizeHist(gray)
